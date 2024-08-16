@@ -1,11 +1,13 @@
 import React from 'react'
-import { useTodoContextDispatch } from '../context/TodoContext'
 import { nanoid } from 'nanoid'
 import { TodoProps } from '../types'
+import { useDispatch } from 'react-redux'
+import { addTodo, editTodo } from '../todoSlice'
 
 function TodoForm({ task, addTask, visible, setVisible }: TodoProps) {
 
-    const dispatch = useTodoContextDispatch()
+    const dispatch = useDispatch()
+
 
     const handleTaskChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         addTask({
@@ -16,13 +18,7 @@ function TodoForm({ task, addTask, visible, setVisible }: TodoProps) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch({
-            type: 'ADD-TODO',
-            payload: {
-                ...task,
-                id: nanoid(),
-            }
-        })
+        dispatch(addTodo({ task, id: nanoid() }))
         addTask({
             ...task,
             title: ''
@@ -32,9 +28,7 @@ function TodoForm({ task, addTask, visible, setVisible }: TodoProps) {
 
     const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch({
-            type: 'EDIT-TODO', payload: task
-        })
+        dispatch(editTodo(task))
         setVisible(false)
         addTask({
             ...task,
