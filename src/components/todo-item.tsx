@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { TodoItemProps } from "../types";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { useTodoContextDispatch } from "../context/TodoContext";
+import { useDispatch } from "react-redux";
+import { deleteTodo } from "../todoSlice";
 
 export default function TodoItem({ task, handleEdit, children }: TodoItemProps) {
-    const dispatch = useTodoContextDispatch()
+    const dispatch = useDispatch()
+
 
     function handeDelete(todoId: string) {
-        dispatch({ type: 'DELETE-TODO', payload: todoId })
+        dispatch(deleteTodo(todoId))
     }
 
 

@@ -1,16 +1,18 @@
 import TodoForm from './todo-form'
 import TodoItem from './todo-item'
 import Search from './Search'
-import { useTodoContextDispatch, useTodoContextState } from '../context/TodoContext'
 import { nanoid } from 'nanoid'
 import { EventType, TodoItemType } from '../types'
 import { useState } from 'react'
 import Filter from './Filter'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../store'
+import { editTodo } from '../todoSlice'
 
 
 function TodoContainer() {
-    const state = useTodoContextState()
-    const dispatch = useTodoContextDispatch()
+    const state = useSelector((state: RootState) => state.todos)
+    const dispatch = useDispatch()
     const [filter, setFilter] = useState(false)
     const [filterValue, setFilterValue] = useState('all')
     const [search, setSearch] = useState('')
@@ -33,7 +35,7 @@ function TodoContainer() {
         event: EventType, task: TodoItemType) {
         const { name, value } = event.target
         const updatedTodo = { ...task, [name]: value }
-        dispatch({ type: 'EDIT-TODO', payload: updatedTodo })
+        dispatch(editTodo(updatedTodo))
     }
 
 

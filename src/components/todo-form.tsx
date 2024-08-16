@@ -18,7 +18,7 @@ function TodoForm({ task, addTask, visible, setVisible }: TodoProps) {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        dispatch(addTodo({ task, id: nanoid() }))
+        dispatch(addTodo({ ...task, id: nanoid() }))
         addTask({
             ...task,
             title: ''
